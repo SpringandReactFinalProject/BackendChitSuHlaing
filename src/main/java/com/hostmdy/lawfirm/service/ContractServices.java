@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.hostmdy.lawfirm.domain.Contract;
 
+import jakarta.validation.Valid;
+
 public interface ContractServices {
 
 	Contract saveOrUpdate(Contract contract);
@@ -15,5 +17,7 @@ public interface ContractServices {
 	Optional<Contract> findById(Long id);
 	
 	void deleteById(Long id);
+
+	Contract updateContract(Contract contract) ;
 	
 }

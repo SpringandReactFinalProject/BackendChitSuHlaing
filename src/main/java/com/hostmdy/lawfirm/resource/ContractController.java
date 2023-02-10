@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +44,7 @@ public class ContractController {
 
 	//@PostMapping("/user/{Id}/create")
 	@PostMapping("/create")
-	public ResponseEntity<?> createContract(/*@PathVariable Long Id,*/ @Valid @RequestBody  Contract contract,
+	public ResponseEntity<?> createContract(@Valid @RequestBody  Contract contract,
 			BindingResult result) {
 		
 		System.out.println("description is "+ contract.getConDescription());
@@ -58,17 +59,27 @@ public class ContractController {
 		return new ResponseEntity<Contract>(createContract, HttpStatus.CREATED);
 
 	}
+	
+	@PatchMapping("/update")
+	public ResponseEntity<?> updateContract(@Valid @RequestBody  Contract contract,
+			BindingResult result){
+		ResponseEntity<?> responseErrorObject = errorMapService.validate(result);
+		
+		if(responseErrorObject!= null)
+			return responseErrorObject;
+		
+		Contract updatedContract = contractService.updateContract(contract);
+		
+		 return new ResponseEntity<Contract>(updatedContract,HttpStatus.OK);
+		}
 
 	@GetMapping("/all")
-	public List<Contract> findContract() {
+	public ResponseEntity<List<Contract>> findContract() {
 		
-		List<Contract> contractList= contractService.findAll();
-		for(Contract con:contractList)
-			System.out.println(con.toString());
-		
+		List<Contract> contractList= contractService.findAll();	
 			
 			
-		return contractList;
+		return new ResponseEntity<>(contractList,HttpStatus.OK);
 
 	}
 

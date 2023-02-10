@@ -56,7 +56,9 @@ public class Cases {
 	private LocalDate endDate;
 	private LocalTime endTime;
 
-	 @OneToOne(mappedBy = "cases")
+	@OneToOne(mappedBy = "cases",cascade = CascadeType.ALL,
+			fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Contract contract;
 //
 //	@PrePersist

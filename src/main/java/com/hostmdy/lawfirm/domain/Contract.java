@@ -35,8 +35,12 @@ public class Contract {
 
 	//one contract has one case (one case is created for one contract)
 	private LocalDate contractDate;
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "case_id", referencedColumnName = "id")
+	
+	
+	//one contract has one case (want case id in contract table)
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name = "case_id",nullable = true)
+	@JsonIgnore
 	private Cases cases;
 	
 	
